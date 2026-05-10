@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Prasanna V — AI Engineer · Data Scientist · Embedded Systems Developer</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <!-- Portfolio Enhancements -->
+  <link rel="stylesheet" href="enhancements.css"/>
+  <!-- Animation Quality Upgrade -->
+  <link rel="stylesheet" href="animations.css"/>
+  <!-- Card Interactions + Image Fitting -->
+  <link rel="stylesheet" href="cards.css"/>
+  <!-- Unified Popup System -->
+  <link rel="stylesheet" href="popup.css"/>
+</head>
+<body class="light-mode">
+
+  <!-- ─── NAV ─── -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a class="nav-brand" href="#hero">PV</a>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#certifications">Certifications</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button id="voiceBtn" class="voice-btn" title="AI Voiceover" onclick="toggleVoiceover()">
+          <i class="fas fa-microphone"></i> Listen
+        </button>
+        <button id="themeToggle" onclick="toggleTheme()" title="Toggle Theme">
+          <i class="fas fa-sun"></i>
+        </button>
+        <button class="hamburger" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ─── HERO ─── -->
+  <section id="hero">
+    <div class="hero-bg-grid"></div>
+    <div class="hero-content">
+      <div class="hero-photo-wrap">
+      <img src="assets/images/prasanna2.jpg" alt="Prasanna V" class="hero-photo" onerror="this.src='assets/images/placeholder-avatar.svg'"/>
+      <div class="hero-photo-ring"></div>
+    </div>
+    <div class="hero-text">
+      <p class="hero-eyebrow">Hello, I'm</p>
+      <h1 class="hero-name">Prasanna V</h1>
+        <p class="hero-roles">
+          <span class="role-tag">AI Engineer</span>
+          <span class="role-sep">·</span>
+          <span class="role-tag">Data Scientist</span>
+          <span class="role-sep">·</span>
+          <span class="role-tag">Embedded Systems Developer</span>
+        </p>
+        <p class="hero-tagline">"Designing intelligent systems where data thinks, devices respond, and decisions happen in real time."</p>
+        <p class="hero-hook">From silicon to software — I build systems that sense, learn, and act.</p>
+        <div class="hero-ctas">
+          <a href="#projects" class="btn-primary">View Projects</a>
+          <a href="#resume" class="btn-outline">Resume</a>
+          <a href="#contact" class="btn-ghost">Contact Me</a>
+        </div>
+        <div class="hero-socials">
+          <a href="https://github.com/CodeWithPrasanna-tech" target="_blank"><i class="fab fa-github"></i></a>
+          <a href="https://www.linkedin.com/in/prasanna-v24" target="_blank"><i class="fab fa-linkedin"></i></a>
+          <a href="mailto:p56973168@gmail.com"><i class="fas fa-envelope"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="hero-scroll-hint">
+      <span>Scroll</span><i class="fas fa-chevron-down"></i>
+    </div>
+  </section>
+
+  <!-- ─── ABOUT ─── -->
+  <section id="about" class="section">
+    <div class="container">
+      <h2 class="section-title">About Me</h2>
+      <div class="about-grid">
+        <div class="about-img-col">
+          <img src="assets/images/prasanna.jpg" alt="Prasanna V" class="about-img" onerror="this.src='assets/images/placeholder-avatar.svg'"/>
+          <div class="about-quick-facts">
+            <div class="fact"><i class="fas fa-map-marker-alt"></i> Chennai, Tamil Nadu</div>
+            <div class="fact"><i class="fas fa-graduation-cap"></i> BCA Graduate</div>
+            <div class="fact"><i class="fas fa-briefcase"></i> Python Programmer @ Chase Technologies</div>
+          </div>
+        </div>
+        <div class="about-text-col">
+          <p>Prasanna V is an ambitious BCA graduate operating at the intersection of Artificial Intelligence, Data Science, and Embedded Systems, where code meets circuitry and data drives decisions. With a strong command of Python and C++, he architects end-to-end intelligent solutions that transform raw inputs into actionable intelligence.</p>
+          <p>His work spans microcontroller programming with ESP32 and Raspberry Pi, real-time computer vision pipelines using OpenCV, and IoT ecosystems that enable continuous monitoring and automation. Rather than treating AI as an abstract concept, he implements it at the edge, bringing intelligence closer to devices for faster, more efficient responses.</p>
+          <p>He is deeply focused on system optimization, low-latency processing, and scalable design, ensuring that every solution is both technically robust and practically deployable. His projects reflect a consistent theme: bridging the gap between physical systems and intelligent software to solve real-world problems.</p>
+          <p>With a mindset grounded in experimentation and iteration, he continuously explores emerging technologies in machine learning, robotics, and data analytics. Beyond development, he values clean architecture, test-driven thinking, and maintainable code. Prasanna is driven not just to build systems, but to engineer experiences that are intelligent, reliable, and future-ready.</p>
+          <div class="about-languages">
+            <span class="lang-badge"><i class="fas fa-language"></i> Tamil — Native</span>
+            <span class="lang-badge"><i class="fas fa-language"></i> English — Professional</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── PROJECTS ─── -->
+  <section id="projects" class="section alt-bg">
+    <div class="container">
+      <h2 class="section-title">Projects</h2>
+      <div class="projects-grid">
+
+        <!-- Project 1 -->
+        <article class="project-card">
+          <div class="project-media">
+            <video controls poster="assets/images/iot-office-thumb.jpg" onerror="this.style.display='none'">
+              <source src="assets/videos/iot-office-automation.mp4" type="video/mp4"/>
+            </video>
+            <div class="project-domain-tag">Computer Vision · IoT · Automation</div>
+          </div>
+          <div class="project-body">
+            <h3>IoT-Based Office Automation System</h3>
+            <p>Designed and implemented a smart office automation ecosystem that leverages computer vision and IoT for seamless operational control. Uses OpenCV and MediaPipe for real-time face detection and recognition, enabling automated attendance tracking and secure access control. Integrated with microcontrollers and network communication protocols for remote monitoring and device management.</p>
+            <div class="project-tags">
+              <span>OpenCV</span><span>MediaPipe</span><span>IoT</span><span>Microcontrollers</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 2 -->
+        <article class="project-card">
+          <div class="project-media">
+            <video controls poster="assets/images/line-follower-thumb.jpg" onerror="this.style.display='none'">
+              <source src="assets/videos/line-follower-robot.mp4" type="video/mp4"/>
+            </video>
+            <div class="project-domain-tag">Robotics · Embedded Systems</div>
+          </div>
+          <div class="project-body">
+            <h3>Line Follower Robot</h3>
+            <p>Developed an autonomous robotic system capable of path detection and navigation using sensor-driven logic. The robot continuously processes input from infrared sensors to dynamically adjust its trajectory, ensuring accurate line tracking. Implemented control algorithms and embedded programming techniques to enhance stability and responsiveness.</p>
+            <div class="project-tags">
+              <span>C++</span><span>IR Sensors</span><span>Embedded</span><span>Robotics</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 3 -->
+        <article class="project-card">
+          <div class="project-media">
+            <video controls poster="assets/images/wristband-thumb.jpg" onerror="this.style.display='none'">
+              <source src="assets/videos/smart-healthcare-wristband.mp4" type="video/mp4"/>
+            </video>
+            <div class="project-domain-tag">IoT · Wearable Tech · Data Monitoring</div>
+          </div>
+          <div class="project-body">
+            <h3>Smart Healthcare Wristband <span class="conf-badge">Conference Project</span></h3>
+            <p>Engineered a wearable IoT solution designed for real-time health monitoring. The system captures physiological data and transmits it for continuous observation and analysis. Presented at an international conference and at REC Engineering College, this project highlights the application of IoT in healthcare innovation.</p>
+            <div class="project-tags">
+              <span>ESP32</span><span>Raspberry Pi</span><span>Wearable</span><span>Healthcare</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SKILLS ─── -->
+  <section id="skills" class="section">
+    <div class="container">
+      <h2 class="section-title">Skills</h2>
+      <div class="skills-grid">
+
+        <div class="skill-card">
+          <div class="skill-icon"><i class="fas fa-code"></i></div>
+          <h3>Core Programming</h3>
+          <ul>
+            <li>Python</li><li>C++</li><li>Data Structures</li><li>Algorithmic Thinking</li>
+          </ul>
+        </div>
+
+        <div class="skill-card">
+          <div class="skill-icon"><i class="fas fa-robot"></i></div>
+          <h3>AI &amp; Data Science</h3>
+          <ul>
+            <li>Machine Learning</li><li>Data Analysis</li><li>Model Development</li>
+            <li>Computer Vision (OpenCV, MediaPipe)</li>
+          </ul>
+        </div>
+
+        <div class="skill-card">
+          <div class="skill-icon"><i class="fas fa-microchip"></i></div>
+          <h3>IoT &amp; Embedded Systems</h3>
+          <ul>
+            <li>ESP32</li><li>Raspberry Pi</li><li>Sensor Integration</li>
+            <li>Real-Time Systems</li><li>Automation</li>
+          </ul>
+        </div>
+
+        <div class="skill-card">
+          <div class="skill-icon"><i class="fas fa-tools"></i></div>
+          <h3>Tools &amp; Platforms</h3>
+          <ul>
+            <li>Google Colab</li><li>GitHub</li><li>VS Code</li><li>Jupyter Notebooks</li>
+          </ul>
+        </div>
+
+        <div class="skill-card">
+          <div class="skill-icon"><i class="fas fa-flask"></i></div>
+          <h3>Software Engineering &amp; Testing</h3>
+          <ul>
+            <li>Debugging</li><li>Code Optimization</li><li>System Validation</li><li>Performance Tuning</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── EXPERIENCE ─── -->
+  <section id="experience" class="section alt-bg">
+    <div class="container">
+      <h2 class="section-title">Experience</h2>
+      <div class="timeline">
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <div class="timeline-header">
+              <h3>Python Programmer</h3>
+              <span class="timeline-company">
+                <a href="https://chasetechnologies.org/editor-profile/" target="_blank">Chase Technologies <i class="fas fa-external-link-alt"></i></a>
+              </span>
+              <span class="timeline-date">Mar 2025 – Present</span>
+            </div>
+            <p>Contributing to the development of Python-based applications with a focus on performance, debugging, and maintainability. Involved in writing efficient code, identifying system-level issues, and ensuring reliability through structured testing and validation.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+  <div class="timeline-dot"></div>
+
+  <div class="timeline-content">
+    <div class="timeline-header">
+      <h3>Technical Head</h3>
+      <span class="timeline-company">Mathelets Club</span>
+      <span class="timeline-date">Jan 2024 – Dec 2025</span>
+    </div>
+
+    <div class="technical-head-award">
+      <div class="technical-head-image">
+        <img src="assets/certificates/technicalhead.jpeg"
+             alt="Technical Head Appreciation Award"
+             onerror="this.src='assets/images/cert-placeholder.svg'">
+      </div>
+
+      <div class="technical-head-content">
+        <h4>Technical Leadership Recognition</h4>
+        <p>
+          Served as <strong>Technical Head of Mathelets Club</strong> for the
+          academic year 2024–2025 at S.A. College of Arts & Science.
+        </p>
+
+        <p>
+          Recognized by the Department of Mathematics in association with
+          Mathelets Club for contributions toward technical event management,
+          student coordination, workshop organization, and academic activities.
+        </p>
+
+        <p>
+          Led technical initiatives, mentored students in programming and
+          problem-solving, and contributed to creating a stronger innovation
+          culture within the club.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── ACHIEVEMENTS ─── -->
+<section id="achievements" class="section">
+  <div class="container">
+    <h2 class="section-title">Achievements</h2>
+
+    <div class="achievements-list">
+
+      <!-- Existing Achievement 1 -->
+      <div class="achievement-item gold">
+  <div class="achievement-award-box">
+
+    <div class="achievement-award-image">
+      <img src="assets/certificates/winner.jpeg"
+           alt="Winner Certificate - Math Bingo"
+           onerror="this.src='assets/images/cert-placeholder.svg'">
+    </div>
+
+    <div class="achievement-award-content">
+      <i class="fas fa-trophy"></i>
+      <h3>1st Place Winner</h3>
+      <p class="award-title">Math Bingo — Math O Fun 2K25</p>
+
+      <p>
+        Secured <strong>1st Place</strong> in
+        <strong>Math Bingo</strong> during
+        <strong>Math O Fun 2K25</strong> organized by the
+        Department of Pure and Applied Mathematics,
+        SIMATS Engineering College.
+      </p>
+
+      <p>
+        Awarded for excellence in mathematical problem-solving,
+        logical reasoning, and competitive analytical thinking.
+      </p>
+    </div>
+
+  </div>
+</div>
+
+      <div class="achievement-item silver">
+  <div class="achievement-award-box">
+
+    <div class="achievement-award-image">
+      <img src="assets/certificates/DUMBC.jpeg"
+           alt="Runner Up Trophy - Math Dumb Charades"
+           onerror="this.src='assets/images/cert-placeholder.svg'">
+    </div>
+
+    <div class="achievement-award-content">
+      <i class="fas fa-medal"></i>
+      <h3>Runner-Up</h3>
+      <p class="award-title">Math Dumb Charades</p>
+      <p>
+        Secured <strong>Runner-Up Position</strong> in
+        <strong>Math O Fun 2K25 – Dumb Charades Competition</strong>
+        conducted by the Department of Pure and Applied Mathematics
+        at SIMATS Engineering College.
+      </p>
+    </div>
+
+  </div>
+</div>
+
+      <!-- Existing Achievement 3 -->
+      <div class="achievement-item bronze">
+  <div class="achievement-award-box">
+
+    <div class="achievement-award-image">
+      <img src="assets/certificates/consolation.jpeg"
+           alt="Consolation Prize Certificate"
+           onerror="this.src='assets/images/cert-placeholder.svg'">
+    </div>
+
+    <div class="achievement-award-content">
+      <i class="fas fa-award"></i>
+      <h3>Consolation Prize</h3>
+      <p class="award-title">National Level Project Competition</p>
+
+      <p>
+        Received <strong>Consolation Prize</strong> in a
+        <strong>National Level Project Competition</strong>
+        for presenting an innovative technical project.
+      </p>
+
+      <p>
+        Recognized for creativity, technical execution,
+        presentation quality, and problem-solving approach.
+      </p>
+    </div>
+
+  </div>
+</div>
+
+      <!-- New Appreciation Letter -->
+      <div class="achievement-letter-card">
+        <div class="achievement-letter-image">
+          <img src="assets/images/achievements1.jpg"
+               alt="Saveetha Engineering College Letter of Appreciation"
+               onerror="this.src='assets/images/cert-placeholder.svg'">
+        </div>
+
+        <div class="achievement-letter-content">
+          <h3>Letter of Appreciation</h3>
+          <p class="achievement-date">11 October 2025</p>
+
+          <p>
+            Honored with an official <strong>Letter of Appreciation</strong>
+            from <strong>Saveetha Engineering College</strong> for conducting
+            an IoT workshop for the Department of Electrical and Electronics Engineering.
+          </p>
+
+          <p>
+            Delivered a technical session on
+            <strong>
+              Smart Applications using Blynk, Telegram, Web,
+              MIT App, and ThingSpeak
+            </strong>.
+          </p>
+
+          <p>
+            The workshop received positive feedback from students and faculty
+            for practical IoT demonstrations, real-time applications,
+            and industry-focused learning.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+  <!-- ─── EDUCATION ─── -->
+  <section id="education" class="section alt-bg">
+    <div class="container">
+      <h2 class="section-title">Education</h2>
+      <div class="edu-cards">
+
+        <div class="edu-card">
+          <div class="edu-year">2023 – 2026</div>
+          <div class="edu-body">
+            <h3>Bachelor of Computer Applications (BCA)</h3>
+            <p class="edu-institution">S.A. College of Arts &amp; Science, Chennai</p>
+            <p class="edu-score">CGPA Equivalent: <strong>79.61%</strong></p>
+          </div>
+        </div>
+
+        <div class="edu-card">
+          <div class="edu-year">2023</div>
+          <div class="edu-body">
+            <h3>Higher Secondary (Class XII)</h3>
+            <p class="edu-institution">Kalaimagal Matric Hr. Sec. School</p>
+            <p class="edu-score">Score: <strong>69.17%</strong></p>
+          </div>
+        </div>
+
+        <div class="edu-card">
+          <div class="edu-year">2021</div>
+          <div class="edu-body">
+            <h3>Secondary (Class X)</h3>
+            <p class="edu-institution">Kalaimagal Matric Hr. Sec. School</p>
+            <p class="edu-score">Score: <strong>60%</strong></p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── CERTIFICATIONS ─── -->
+  <section id="certifications" class="section">
+    <div class="container">
+      <h2 class="section-title">Certifications</h2>
+      <div class="cert-intro">
+        <a href="https://drive.google.com/drive/folders/1wKvGiXyL_SIp7n2tzrpGI1OoqxqFo-SM" target="_blank" class="btn-outline">
+          <i class="fab fa-google-drive"></i> View Complete Certification Portfolio
+        </a>
+      </div>
+      <div class="cert-grid">
+
+        <div class="cert-card" onclick="openModal('modal-cert1')">
+          <img src="assets/certificates/certificate1.jpg" alt="NPTEL Certificate" onerror="this.src='assets/images/cert-placeholder.svg'"/>
+          <div class="cert-info">
+            <h4>The Joy of Computing Using Python</h4>
+            <p>NPTEL</p>
+          </div>
+        </div>
+
+        <div class="cert-card" onclick="openModal('modal-certDS')">
+  <img src="assets/certificates/datascience-python.jpg" alt="Data Science using Python Certificate" onerror="this.src='assets/images/cert-placeholder.svg'"/>
+  <div class="cert-info">
+    <h4>Data Science using Python</h4>
+    <p>Brainovision · International Workshop</p>
+  </div>
+</div>
+<div id="modal-certDS" class="modal" onclick="closeModal('modal-certDS')">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeModal('modal-certDS')">
+      <i class="fas fa-times"></i>
+    </button>
+    <img src="assets/certificates/datascience-python.jpg" alt="Data Science using Python Certificate" onerror="this.src='assets/images/cert-placeholder.svg'"/>
+    <h4>International Workshop — Data Science using Python</h4>
+  </div>
+</div>
+        <div class="cert-card" onclick="openModal('modal-cert4')">
+          <img src="assets/certificates/certificate4.jpg" alt="Conference Certificate" onerror="this.src='assets/images/cert-placeholder.svg'"/>
+          <div class="cert-info">
+            <h4>International Conference Presentation</h4>
+            <p>Smart Healthcare Wristband</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── CONFERENCES ─── -->
+  <section id="conferences" class="section alt-bg">
+    <div class="container">
+      <h2 class="section-title">Conferences</h2>
+      <div class="conf-card">
+        <div class="conf-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+        <div class="conf-body">
+          <h3>International Conference Presentation</h3>
+          <p class="conf-title-proj"><em>"Smart Healthcare Wristband"</em></p>
+          <ul class="conf-venues">
+            <li><i class="fas fa-university"></i> Vallal P.T. Lee Chengalvaraya Naicker Arts &amp; Science College</li>
+            <li><i class="fas fa-university"></i> REC Engineering College</li>
+          </ul>
+          <p>Focused on real-time monitoring, wearable intelligence, and scalable healthcare solutions.</p>
+          <img src="assets/certificates/certificate4.jpg" alt="Conference Certificate" class="conf-cert-img" onerror="this.style.display='none'"/>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── RESUME ─── -->
+  <section id="resume" class="section">
+    <div class="container">
+      <h2 class="section-title">Resume</h2>
+      <div class="resume-panel">
+        <div class="resume-visual">
+          <!-- Inline resume visualization -->
+          <div class="resume-card-preview">
+            <div class="rv-header">
+              <div class="rv-name">Prasanna V</div>
+              <div class="rv-sub">AI Engineer · Data Scientist · Embedded Systems Developer</div>
+              <div class="rv-contact">
+                <span><i class="fas fa-envelope"></i> p56973168@gmail.com</span>
+                <span><i class="fas fa-phone"></i> 7550267750</span>
+                <span><i class="fas fa-map-marker-alt"></i> Chennai, TN</span>
+              </div>
+            </div>
+            <div class="rv-body">
+              <div class="rv-section">
+                <div class="rv-sec-title">Education</div>
+                <div class="rv-entry"><b>BCA</b> — S.A. College of Arts &amp; Science &nbsp;|&nbsp; 79.61% &nbsp;|&nbsp; 2026</div>
+                <div class="rv-entry">Class XII — Kalaimagal Matric &nbsp;|&nbsp; 69.17% &nbsp;|&nbsp; 2023</div>
+              </div>
+              <div class="rv-section">
+                <div class="rv-sec-title">Experience</div>
+                <div class="rv-entry"><b>Python Programmer</b> — Chase Technologies &nbsp;|&nbsp; Mar 2025–Present</div>
+                <div class="rv-entry"><b>Technical Head</b> — Mathelets Club &nbsp;|&nbsp; Jan 2024–Dec 2025</div>
+              </div>
+              <div class="rv-section">
+                <div class="rv-sec-title">Skills</div>
+                <div class="rv-entry">Python · C++ · OpenCV · MediaPipe · ESP32 · Raspberry Pi · ML · Data Analysis</div>
+              </div>
+              <div class="rv-section">
+                <div class="rv-sec-title">Achievements</div>
+                <div class="rv-entry">1st Place — Math Bingo, SIMATS | Runner-Up — Math Dumb Charades</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="resume-actions">
+          <a href="assets/resume/Prasanna_V_Resume.pdf" download class="btn-primary"><i class="fas fa-download"></i> Download Resume (PDF)</a>
+          <p class="resume-note">To View and Download Resume Click the above Button☝️</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── CONTACT ─── -->
+  <section id="contact" class="section alt-bg">
+    <div class="container">
+      <h2 class="section-title">Contact</h2>
+      <div class="contact-grid">
+        <div class="contact-info">
+          <div class="contact-item">
+            <i class="fas fa-envelope"></i>
+            <a href="mailto:p56973168@gmail.com">p56973168@gmail.com</a>
+          </div>
+          <div class="contact-item">
+            <i class="fas fa-phone"></i>
+            <span>7550267750 / 9962348939</span>
+          </div>
+          <div class="contact-item">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>Chennai, Tamil Nadu, India</span>
+          </div>
+          <div class="contact-item">
+            <i class="fab fa-github"></i>
+            <a href="https://github.com/CodeWithPrasanna-tech" target="_blank">CodeWithPrasanna-tech</a>
+          </div>
+          <div class="contact-item">
+            <i class="fab fa-linkedin"></i>
+            <a href="https://www.linkedin.com/in/prasanna-v24" target="_blank">prasanna-v24</a>
+          </div>
+        </div>
+        <div class="contact-form-box">
+          <form id="contactForm" onsubmit="handleContact(event)">
+            <input type="text" placeholder="Your Name" required />
+            <input type="email" placeholder="Your Email" required />
+            <textarea rows="5" placeholder="Your Message" required></textarea>
+            <button type="submit" class="btn-primary">Send Message <i class="fas fa-paper-plane"></i></button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── FOOTER ─── -->
+  <footer>
+    <div class="footer-inner">
+      <p class="footer-quote">"Engineering intelligence where data meets the real world."</p>
+      <p class="footer-copy">© 2025 Prasanna V · Built with passion for intelligent systems</p>
+      <div class="footer-socials">
+        <a href="https://github.com/CodeWithPrasanna-tech" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="https://www.linkedin.com/in/prasanna-v24" target="_blank"><i class="fab fa-linkedin"></i></a>
+        <a href="mailto:p56973168@gmail.com"><i class="fas fa-envelope"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ─── CERTIFICATE MODALS ─── -->
+  <div id="modal-cert1" class="modal" onclick="closeModal('modal-cert1')">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeModal('modal-cert1')"><i class="fas fa-times"></i></button>
+      <img src="assets/certificates/certificate1.jpg" alt="NPTEL Certificate" onerror="this.src='assets/images/cert-placeholder.svg'"/>
+      <h4>The Joy of Computing Using Python — NPTEL</h4>
+    </div>
+  </div>
+  <div id="modal-cert2" class="modal" onclick="closeModal('modal-cert2')">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeModal('modal-cert2')"><i class="fas fa-times"></i></button>
+      <img src="assets/certificates/certificate2.jpg" alt="AICTE Certificate" onerror="this.src='assets/images/cert-placeholder.svg'"/>
+      <h4>Green Skills &amp; AI Internship — AICTE</h4>
+    </div>
+  </div>
+  <div id="modal-cert3" class="modal" onclick="closeModal('modal-cert3')">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeModal('modal-cert3')"><i class="fas fa-times"></i></button>
+      <img src="assets/certificates/certificate3.jpg" alt="Edunet Certificate" onerror="this.src='assets/images/cert-placeholder.svg'"/>
+      <h4>Shell Skills4Future Program — Edunet</h4>
+    </div>
+  </div>
+  <div id="modal-cert4" class="modal" onclick="closeModal('modal-cert4')">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeModal('modal-cert4')"><i class="fas fa-times"></i></button>
+      <img src="assets/certificates/certificate4.jpg" alt="Conference Certificate" onerror="this.src='assets/images/cert-placeholder.svg'"/>
+      <h4>International Conference — Smart Healthcare Wristband</h4>
+    </div>
+  </div>
+
+  <!-- ─── VOICEOVER PANEL ─── -->
+  <div id="voicePanel" class="voice-panel hidden">
+    <div class="voice-panel-header">
+      <span><i class="fas fa-microphone-alt"></i> AI Voice Assistant</span>
+      <button onclick="stopVoiceover()" title="Close"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="voice-panel-body">
+      <p id="voiceStatus">Ready &mdash; select a section to listen</p>
+      <div class="voice-section-btns">
+        <button onclick="speakSection('about')">About Me</button>
+        <button onclick="speakSection('projects')">Projects</button>
+        <button onclick="speakSection('skills')">Skills</button>
+        <button onclick="speakSection('experience')">Experience</button>
+        <button onclick="speakSection('education')">Education</button>
+        <button onclick="speakSection('achievements')">Achievements</button>
+      </div>
+      <button class="voice-stop-btn" onclick="stopSpeaking()"><i class="fas fa-stop-circle"></i> Stop Speaking</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script src="popup.js"></script>
+  <script src="enhancements.js"></script>
+  <script src="animations.js"></script>
+</body>
+</html>
+

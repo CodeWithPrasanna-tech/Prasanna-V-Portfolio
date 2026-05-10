@@ -1,0 +1,412 @@
+/* ═══════════════════════════════════════════════════════
+   PRASANNA V · UNIFIED POPUP SYSTEM
+   Single source of truth for ALL modals:
+   — achievement popups
+   — certification popups
+   — image preview modal
+   — resume viewer modal
+   Zero duplication. Loads last — wins the cascade.
+═══════════════════════════════════════════════════════ */
+
+/* ════════════════════════════════════════════════════════
+   MODAL BACKDROP
+   GPU-composited: only opacity + backdrop-filter animated
+════════════════════════════════════════════════════════ */
+.modal,
+#pmModal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(12px, 4vw, 28px);
+  /* Backdrop starts transparent — JS adds .pm-open */
+  background: rgba(0, 0, 0, 0);
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
+  transition:
+    background       0.30s ease,
+    backdrop-filter  0.30s ease;
+  overflow-y: auto;
+}
+
+/* Active state — backdrop fades in */
+.modal.pm-open,
+#pmModal.pm-open {
+  background: rgba(4, 8, 14, 0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Legacy .active class — keep old HTML working */
+.modal.active {
+  background: rgba(4, 8, 14, 0.82) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+}
+
+/* ════════════════════════════════════════════════════════
+   MODAL BOX
+   Spring entrance: scale(0.84) → scale(1)
+════════════════════════════════════════════════════════ */
+.modal-box,
+#pmModal .pm-box {
+  background: var(--surface);
+  border-radius: 16px;
+  padding: clamp(20px, 4vw, 32px);
+  max-width: 740px;
+  width: 100%;
+  position: relative;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  /* Start hidden — JS adds .pm-open to backdrop which triggers child */
+  transform: scale(0.84) translateY(24px);
+  opacity: 0;
+  transition:
+    transform 0.42s cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity   0.32s ease;
+  box-shadow:
+    0  8px 32px  rgba(0, 0, 0, 0.22),
+    0 24px 80px  rgba(0, 0, 0, 0.32),
+    0  0   0 1px rgba(255, 255, 255, 0.07);
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+.modal.pm-open .modal-box,
+.modal.active  .modal-box,
+#pmModal.pm-open .pm-box {
+  transform: scale(1) translateY(0);
+  opacity: 1;
+}
+
+/* Dark mode box */
+body.dark-mode .modal-box,
+body.dark-mode #pmModal .pm-box {
+  background: #161c22;
+  box-shadow:
+    0  8px 32px  rgba(0, 0, 0, 0.55),
+    0 24px 80px  rgba(0, 0, 0, 0.65),
+    0  0   0 1px rgba(255, 255, 255, 0.08);
+}
+
+/* Accent top line on box */
+.modal-box::before,
+#pmModal .pm-box::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 24px; right: 24px;
+  height: 2px;
+  border-radius: 0 0 2px 2px;
+  background: linear-gradient(90deg,
+    var(--accent-1), var(--accent-teal), var(--accent-3));
+  background-size: 200% 100%;
+  animation: modalAccentShift 4s ease infinite;
+  pointer-events: none;
+}
+@keyframes modalAccentShift {
+  0%,100% { background-position: 0%   50%; }
+  50%      { background-position: 100% 50%; }
+}
+
+/* ════════════════════════════════════════════════════════
+   CLOSE BUTTON
+════════════════════════════════════════════════════════ */
+.modal-close,
+.pm-close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background  0.22s ease,
+    border-color 0.22s ease,
+    color       0.22s ease,
+    transform   0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 2;
+}
+.modal-close:hover,
+.pm-close:hover {
+  background: var(--accent-2);
+  border-color: var(--accent-2);
+  color: #fff;
+  transform: rotate(90deg) scale(1.1);
+}
+body.dark-mode .modal-close,
+body.dark-mode .pm-close {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #a09488;
+}
+
+/* ════════════════════════════════════════════════════════
+   MODAL IMAGE
+════════════════════════════════════════════════════════ */
+.modal-box img,
+#pmModal .pm-box img {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 18px;
+  display: block;
+  object-fit: contain;
+  max-height: 62vh;
+  background: var(--bg-alt);
+  transition: transform 0.35s ease;
+}
+.modal-box img:hover,
+#pmModal .pm-box img:hover {
+  transform: scale(1.01);
+}
+
+/* ════════════════════════════════════════════════════════
+   MODAL TEXT
+════════════════════════════════════════════════════════ */
+.modal-box h4,
+#pmModal .pm-title {
+  font-family: var(--heading-font);
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  color: var(--accent-1);
+  line-height: 1.45;
+  margin-bottom: 8px;
+  padding-right: 40px; /* clear close btn */
+}
+body.dark-mode .modal-box h4,
+body.dark-mode #pmModal .pm-title { color: #a8c8e8; }
+
+.modal-desc,
+#pmModal .pm-desc {
+  font-family: var(--ui-font);
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-top: 4px;
+}
+
+/* ════════════════════════════════════════════════════════
+   RESUME MODAL — wider box for PDF viewer
+════════════════════════════════════════════════════════ */
+#pmResumeModal .pm-box {
+  max-width: 960px;
+  padding: 20px;
+}
+#pmResumeModal .pm-iframe {
+  width: 100%;
+  height: clamp(300px, 72vh, 780px);
+  border: none;
+  border-radius: 8px;
+  background: #fff;
+  display: block;
+  margin-top: 4px;
+}
+#pmResumeModal .pm-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+#pmResumeModal .pm-title i {
+  color: var(--accent-2);
+}
+
+/* ════════════════════════════════════════════════════════
+   RESUME SECTION BUTTONS
+   Two-button row: View | Download
+════════════════════════════════════════════════════════ */
+.resume-btn-group {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.pm-btn-view,
+.pm-btn-download {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 26px;
+  border-radius: var(--radius);
+  font-family: var(--ui-font);
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform    0.28s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow   0.28s ease,
+    background   0.25s ease,
+    border-color 0.25s ease,
+    color        0.25s ease;
+}
+
+/* Ripple layer */
+.pm-btn-view::after,
+.pm-btn-download::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.14);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+.pm-btn-view:hover::after,
+.pm-btn-download:hover::after { opacity: 1; }
+
+/* VIEW — solid primary */
+.pm-btn-view {
+  background: var(--accent-1);
+  border: 2px solid var(--accent-1);
+  color: #fff;
+}
+.pm-btn-view:hover {
+  background: var(--accent-teal);
+  border-color: var(--accent-teal);
+  transform: translateY(-2px);
+  box-shadow: 0 7px 24px rgba(26, 60, 94, 0.30);
+}
+body.dark-mode .pm-btn-view:hover {
+  box-shadow: 0 7px 24px rgba(80, 150, 255, 0.25);
+}
+
+/* DOWNLOAD — outline style */
+.pm-btn-download {
+  background: transparent;
+  border: 2px solid var(--accent-1);
+  color: var(--accent-1);
+}
+.pm-btn-download:hover {
+  background: var(--accent-1);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 7px 24px rgba(26, 60, 94, 0.22);
+}
+body.dark-mode .pm-btn-download {
+  border-color: rgba(100, 160, 220, 0.55);
+  color: #a8c8e8;
+}
+body.dark-mode .pm-btn-download:hover {
+  background: rgba(100, 160, 220, 0.14);
+  color: #c8e0ff;
+  border-color: #6aaae0;
+  box-shadow: 0 7px 24px rgba(100, 160, 220, 0.20);
+}
+
+.resume-note {
+  font-family: var(--ui-font);
+  font-size: 0.80rem;
+  color: var(--text-light);
+  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+body.dark-mode .resume-note { color: #6a6058; }
+
+/* ════════════════════════════════════════════════════════
+   CLICK-TO-ENLARGE HINT (on all popup-enabled images)
+════════════════════════════════════════════════════════ */
+.pm-img-wrap {
+  position: relative;
+  display: block;
+  cursor: pointer;
+}
+.pm-img-wrap::after {
+  content: '\f065\00a0 Enlarge'; /* fa-expand + space + text */
+  font-family: 'Font Awesome 6 Free', var(--ui-font);
+  font-weight: 900;
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(4, 8, 14, 0.72);
+  color: #e8e0d4;
+  padding: 3px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.22s ease;
+  pointer-events: none;
+  backdrop-filter: blur(4px);
+}
+.pm-img-wrap:hover::after { opacity: 1; }
+
+/* ════════════════════════════════════════════════════════
+   CERT CARD POPUP TRIGGER — visual feedback
+════════════════════════════════════════════════════════ */
+.cert-card[data-pm] {
+  cursor: pointer;
+}
+.cert-card[data-pm]::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: rgba(26, 60, 94, 0.0);
+  transition: background 0.25s ease;
+  pointer-events: none;
+  z-index: 3;
+}
+.cert-card[data-pm]:hover::after {
+  /* Inherits from cards.css shimmer — no override needed */
+  background: rgba(26, 60, 94, 0.0);
+}
+
+/* ════════════════════════════════════════════════════════
+   ACHIEVEMENT ITEM POPUP TRIGGER
+════════════════════════════════════════════════════════ */
+.achievement-item[data-pm],
+.achievement-letter-card[data-pm] {
+  cursor: pointer;
+}
+
+/* ════════════════════════════════════════════════════════
+   RESPONSIVE
+════════════════════════════════════════════════════════ */
+@media (max-width: 600px) {
+  .modal-box,
+  #pmModal .pm-box {
+    border-radius: 12px;
+    padding: 18px 16px 20px;
+    max-height: calc(100vh - 24px);
+  }
+  .modal-box img,
+  #pmModal .pm-box img { max-height: 52vh; }
+
+  #pmResumeModal .pm-iframe { height: clamp(240px, 58vh, 480px); }
+
+  .resume-btn-group { width: 100%; }
+  .pm-btn-view,
+  .pm-btn-download { width: 100%; justify-content: center; }
+}
+
+/* ════════════════════════════════════════════════════════
+   REDUCED MOTION
+════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  .modal-box,
+  #pmModal .pm-box {
+    transition: opacity 0.01ms !important;
+    transform: none !important;
+  }
+  .modal-box::before,
+  #pmModal .pm-box::before {
+    animation: none !important;
+  }
+}

@@ -1,0 +1,628 @@
+/* ═══════════════════════════════════════════════════════
+   PRASANNA V · CARD INTERACTIONS + IMAGE FITTING
+   All transitions: transform + opacity only (GPU composited)
+   Shadow expansion uses box-shadow (compositor-friendly)
+   No width/height/padding/margin animations (avoids reflow)
+═══════════════════════════════════════════════════════ */
+
+/* ── SHARED CUSTOM PROPERTIES ── */
+:root {
+  /* Glow colours per card type — applied via box-shadow */
+  --glow-project:   rgba(26,  60, 94,  0.14);
+  --glow-skill-1:   rgba(26,  60, 94,  0.16);
+  --glow-skill-2:   rgba(181, 69, 27,  0.16);
+  --glow-skill-3:   rgba(46, 125, 82,  0.16);
+  --glow-skill-4:   rgba(200,148, 42,  0.16);
+  --glow-skill-5:   rgba(29, 111,120,  0.16);
+  --glow-cert:      rgba(181, 69, 27,  0.14);
+  --glow-edu:       rgba(46, 125, 82,  0.14);
+  --glow-timeline:  rgba(26,  60, 94,  0.13);
+  --glow-ach-gold:  rgba(200,148, 42,  0.22);
+  --glow-ach-silver:rgba(156,163,175,  0.20);
+  --glow-ach-bronze:rgba(181, 69, 27,  0.18);
+  --glow-conf:      rgba(29, 111,120,  0.16);
+  --glow-letter:    rgba(26,  60, 94,  0.13);
+
+  /* Dark mode equivalents */
+  --glow-d-project:  rgba(80, 140,220,  0.16);
+  --glow-d-skill-1:  rgba(80, 140,220,  0.16);
+  --glow-d-skill-2:  rgba(220,100, 60,  0.16);
+  --glow-d-skill-3:  rgba(60, 190,120,  0.16);
+  --glow-d-skill-4:  rgba(220,170, 60,  0.16);
+  --glow-d-skill-5:  rgba(60, 200,200,  0.16);
+  --glow-d-cert:     rgba(220,100, 60,  0.15);
+  --glow-d-edu:      rgba(60, 190,120,  0.15);
+  --glow-d-timeline: rgba(80, 140,220,  0.14);
+  --glow-d-conf:     rgba(60, 200,200,  0.16);
+}
+
+/* ════════════════════════════════════════════════════════
+   BASE CARD RESET — give every card a consistent foundation
+   (resting shadow, border, background already set in style.css)
+════════════════════════════════════════════════════════ */
+.project-card,
+.skill-card,
+.cert-card,
+.edu-card,
+.timeline-content,
+.achievement-item,
+.achievement-letter-card,
+.conf-card {
+  /* Force GPU layer at rest — prevents paint on hover entry */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  /* Unified transition — override existing piecemeal ones */
+  transition:
+    transform    0.40s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow   0.40s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    border-color 0.40s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    opacity      0.40s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+  will-change: transform, box-shadow;
+}
+
+/* ════════════════════════════════════════════════════════
+   1. PROJECT CARDS
+   Lift + glow shadow expansion + border brightening
+════════════════════════════════════════════════════════ */
+.project-card {
+  position: relative;
+  overflow: hidden; /* keep — clips video + domain tag */
+}
+
+/* Gradient shimmer overlay — reveals on hover */
+.project-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    145deg,
+    rgba(26, 60, 94, 0.04)  0%,
+    transparent              50%,
+    rgba(26, 60, 94, 0.02)  100%
+  );
+  opacity: 0;
+  transition: opacity 0.45s ease;
+  pointer-events: none;
+  z-index: 1;
+  border-radius: inherit;
+}
+.project-card:hover::after { opacity: 1; }
+
+body.dark-mode .project-card::after {
+  background: linear-gradient(
+    145deg,
+    rgba(80, 140, 220, 0.06) 0%,
+    transparent              50%,
+    rgba(80, 140, 220, 0.03) 100%
+  );
+}
+
+.project-card:hover {
+  transform: translateY(-8px) translateZ(0) !important;
+  box-shadow:
+    /* ambient  */ 0 2px  8px  rgba(26,22,20, 0.06),
+    /* mid lift */ 0 8px  24px rgba(26,22,20, 0.10),
+    /* deep lift */ 0 20px 48px var(--glow-project),
+    /* border glow */ 0 0 0 1.5px rgba(26,60,94, 0.18) !important;
+  border-color: rgba(26,60,94, 0.24) !important;
+}
+body.dark-mode .project-card:hover {
+  box-shadow:
+    0  2px  8px  rgba(0,0,0, 0.25),
+    0  8px  24px rgba(0,0,0, 0.30),
+    0 20px  48px var(--glow-d-project),
+    0  0    0 1.5px rgba(80,140,220, 0.22) !important;
+  border-color: rgba(80,140,220, 0.26) !important;
+}
+
+/* Domain tag — sits above shimmer overlay */
+.project-card .project-domain-tag { z-index: 2; }
+
+/* ════════════════════════════════════════════════════════
+   2. SKILL CARDS
+   Each has a unique accent top border — glow matches it
+════════════════════════════════════════════════════════ */
+.skill-card {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Shimmer sweep — accent-coloured per card */
+.skill-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.40s ease;
+  pointer-events: none;
+  border-radius: inherit;
+}
+.skill-card:hover::after { opacity: 1; }
+
+/* Accent-specific gradients */
+.skill-card:nth-child(1)::after { background: linear-gradient(160deg, rgba(26,60,94,0.05) 0%, transparent 55%); }
+.skill-card:nth-child(2)::after { background: linear-gradient(160deg, rgba(181,69,27,0.05) 0%, transparent 55%); }
+.skill-card:nth-child(3)::after { background: linear-gradient(160deg, rgba(46,125,82,0.05) 0%, transparent 55%); }
+.skill-card:nth-child(4)::after { background: linear-gradient(160deg, rgba(200,148,42,0.05) 0%, transparent 55%); }
+.skill-card:nth-child(5)::after { background: linear-gradient(160deg, rgba(29,111,120,0.05) 0%, transparent 55%); }
+
+body.dark-mode .skill-card:nth-child(1)::after { background: linear-gradient(160deg, rgba(80,140,220,0.07) 0%, transparent 55%); }
+body.dark-mode .skill-card:nth-child(2)::after { background: linear-gradient(160deg, rgba(220,100,60,0.07)  0%, transparent 55%); }
+body.dark-mode .skill-card:nth-child(3)::after { background: linear-gradient(160deg, rgba(60,190,120,0.07) 0%, transparent 55%); }
+body.dark-mode .skill-card:nth-child(4)::after { background: linear-gradient(160deg, rgba(220,170,60,0.07)  0%, transparent 55%); }
+body.dark-mode .skill-card:nth-child(5)::after { background: linear-gradient(160deg, rgba(60,200,200,0.07) 0%, transparent 55%); }
+
+/* Hover states — accent-specific shadow glow */
+.skill-card:hover {
+  transform: translateY(-7px) scale(1.015) translateZ(0) !important;
+}
+.skill-card:nth-child(1):hover {
+  box-shadow:
+    0  4px 16px rgba(26,22,20, 0.08),
+    0 12px 36px var(--glow-skill-1),
+    0  0   0 1.5px rgba(26,60,94,   0.18) !important;
+  border-color: rgba(26,60,94,   0.22) !important;
+}
+.skill-card:nth-child(2):hover {
+  box-shadow:
+    0  4px 16px rgba(26,22,20, 0.08),
+    0 12px 36px var(--glow-skill-2),
+    0  0   0 1.5px rgba(181,69,27,  0.22) !important;
+  border-color: rgba(181,69,27,  0.26) !important;
+}
+.skill-card:nth-child(3):hover {
+  box-shadow:
+    0  4px 16px rgba(26,22,20, 0.08),
+    0 12px 36px var(--glow-skill-3),
+    0  0   0 1.5px rgba(46,125,82,  0.22) !important;
+  border-color: rgba(46,125,82,  0.26) !important;
+}
+.skill-card:nth-child(4):hover {
+  box-shadow:
+    0  4px 16px rgba(26,22,20, 0.08),
+    0 12px 36px var(--glow-skill-4),
+    0  0   0 1.5px rgba(200,148,42, 0.22) !important;
+  border-color: rgba(200,148,42, 0.26) !important;
+}
+.skill-card:nth-child(5):hover {
+  box-shadow:
+    0  4px 16px rgba(26,22,20, 0.08),
+    0 12px 36px var(--glow-skill-5),
+    0  0   0 1.5px rgba(29,111,120, 0.22) !important;
+  border-color: rgba(29,111,120, 0.26) !important;
+}
+/* Dark mode skill hovers */
+body.dark-mode .skill-card:nth-child(1):hover { box-shadow: 0 4px 16px rgba(0,0,0,.25), 0 12px 36px var(--glow-d-skill-1), 0 0 0 1.5px rgba(80,140,220,0.22) !important; border-color: rgba(80,140,220,0.28) !important; }
+body.dark-mode .skill-card:nth-child(2):hover { box-shadow: 0 4px 16px rgba(0,0,0,.25), 0 12px 36px var(--glow-d-skill-2), 0 0 0 1.5px rgba(220,100,60,0.22)  !important; border-color: rgba(220,100,60,0.28)  !important; }
+body.dark-mode .skill-card:nth-child(3):hover { box-shadow: 0 4px 16px rgba(0,0,0,.25), 0 12px 36px var(--glow-d-skill-3), 0 0 0 1.5px rgba(60,190,120,0.22) !important; border-color: rgba(60,190,120,0.28) !important; }
+body.dark-mode .skill-card:nth-child(4):hover { box-shadow: 0 4px 16px rgba(0,0,0,.25), 0 12px 36px var(--glow-d-skill-4), 0 0 0 1.5px rgba(220,170,60,0.22)  !important; border-color: rgba(220,170,60,0.28)  !important; }
+body.dark-mode .skill-card:nth-child(5):hover { box-shadow: 0 4px 16px rgba(0,0,0,.25), 0 12px 36px var(--glow-d-skill-5), 0 0 0 1.5px rgba(60,200,200,0.22) !important; border-color: rgba(60,200,200,0.28) !important; }
+
+/* ════════════════════════════════════════════════════════
+   3. EXPERIENCE / TIMELINE CARDS
+   Slide right + left-border colour reveal
+════════════════════════════════════════════════════════ */
+.timeline-content {
+  border-left: 3px solid transparent;
+}
+.timeline-content:hover {
+  transform: translateX(6px) translateZ(0) !important;
+  border-left-color: var(--accent-1) !important;
+  box-shadow:
+    0  4px 16px rgba(26,22,20, 0.07),
+    0 10px 32px var(--glow-timeline),
+    0  0   0 1px rgba(26,60,94, 0.12) !important;
+}
+body.dark-mode .timeline-content:hover {
+  border-left-color: #6aaae0 !important;
+  box-shadow:
+    0  4px 16px rgba(0,0,0, 0.30),
+    0 10px 32px var(--glow-d-timeline),
+    0  0   0 1px rgba(80,140,220, 0.18) !important;
+}
+
+/* ════════════════════════════════════════════════════════
+   4. EDUCATION CARDS
+   Gentle lift + green accent glow
+════════════════════════════════════════════════════════ */
+.edu-card:hover {
+  transform: translateY(-6px) translateZ(0) !important;
+  box-shadow:
+    0  4px 16px rgba(26,22,20, 0.07),
+    0 12px 36px var(--glow-edu),
+    0  0   0 1.5px rgba(46,125,82, 0.16) !important;
+  border-color: rgba(46,125,82, 0.22) !important;
+}
+body.dark-mode .edu-card:hover {
+  box-shadow:
+    0  4px 16px rgba(0,0,0, 0.28),
+    0 12px 36px var(--glow-d-edu),
+    0  0   0 1.5px rgba(60,190,120, 0.20) !important;
+  border-color: rgba(60,190,120, 0.24) !important;
+}
+
+/* ════════════════════════════════════════════════════════
+   5. ACHIEVEMENT ITEMS (gold / silver / bronze)
+   Left-border widens + colour-specific glow
+════════════════════════════════════════════════════════ */
+.achievement-item {
+  border-left-width: 5px;
+  position: relative;
+  overflow: hidden;
+}
+/* Resting shimmer — very subtle */
+.achievement-item::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  opacity: 0;
+  transition: opacity 0.40s ease;
+  pointer-events: none;
+}
+.achievement-item.gold::before   { background: linear-gradient(90deg, transparent, rgba(200,148,42,0.5), transparent); }
+.achievement-item.silver::before { background: linear-gradient(90deg, transparent, rgba(156,163,175,0.5), transparent); }
+.achievement-item.bronze::before { background: linear-gradient(90deg, transparent, rgba(181,69,27,0.4), transparent); }
+.achievement-item:hover::before  { opacity: 1; }
+
+.achievement-item:hover {
+  transform: translateY(-5px) translateZ(0) !important;
+  border-left-width: 7px !important;
+}
+.achievement-item.gold:hover {
+  box-shadow:
+    0  4px 16px rgba(26,22,20,  0.07),
+    0 12px 36px var(--glow-ach-gold),
+    0  0   0 1px rgba(200,148,42, 0.18) !important;
+  border-color: var(--accent-gold) !important;
+}
+.achievement-item.silver:hover {
+  box-shadow:
+    0  4px 16px rgba(26,22,20,  0.07),
+    0 12px 36px var(--glow-ach-silver),
+    0  0   0 1px rgba(156,163,175,0.16) !important;
+}
+.achievement-item.bronze:hover {
+  box-shadow:
+    0  4px 16px rgba(26,22,20,  0.07),
+    0 12px 36px var(--glow-ach-bronze),
+    0  0   0 1px rgba(181,69,27, 0.18) !important;
+  border-color: var(--accent-2) !important;
+}
+
+/* ════════════════════════════════════════════════════════
+   6. ACHIEVEMENT LETTER CARD
+   Lift + navy glow to match section accent
+════════════════════════════════════════════════════════ */
+.achievement-letter-card {
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform    0.40s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow   0.40s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+}
+.achievement-letter-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(145deg, rgba(26,60,94,0.03) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.40s ease;
+  pointer-events: none;
+  border-radius: inherit;
+}
+.achievement-letter-card:hover::before { opacity: 1; }
+.achievement-letter-card:hover {
+  transform: translateY(-5px) translateZ(0) !important;
+  box-shadow:
+    0  4px 16px rgba(26,22,20, 0.08),
+    0 14px 42px var(--glow-letter),
+    0  0   0 1px rgba(26,60,94, 0.12) !important;
+}
+body.dark-mode .achievement-letter-card:hover {
+  box-shadow:
+    0  4px 16px rgba(0,0,0, 0.30),
+    0 14px 42px var(--glow-d-project),
+    0  0   0 1px rgba(80,140,220, 0.16) !important;
+}
+
+/* ════════════════════════════════════════════════════════
+   7. CERTIFICATION CARDS
+   Terracotta glow (matches cert badge accent-2)
+   Image clipping preserved with overflow:hidden
+════════════════════════════════════════════════════════ */
+.cert-card {
+  position: relative;
+  /* overflow:hidden already set in style.css — keep it */
+}
+
+/* Reveal bar at bottom */
+.cert-card::before {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent-2), var(--accent-teal));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.40s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+  z-index: 2;
+}
+.cert-card:hover::before { transform: scaleX(1); }
+
+.cert-card:hover {
+  transform: translateY(-8px) translateZ(0) !important;
+  box-shadow:
+    0  4px 16px rgba(26,22,20, 0.07),
+    0 14px 42px var(--glow-cert),
+    0  0   0 1.5px rgba(181,69,27, 0.18) !important;
+  border-color: rgba(181,69,27, 0.22) !important;
+}
+body.dark-mode .cert-card:hover {
+  box-shadow:
+    0  4px 16px rgba(0,0,0, 0.28),
+    0 14px 42px var(--glow-d-cert),
+    0  0   0 1.5px rgba(220,100,60, 0.22) !important;
+  border-color: rgba(220,100,60, 0.26) !important;
+}
+
+/* ════════════════════════════════════════════════════════
+   8. CONFERENCE CARD
+   Teal glow + gentle lift
+════════════════════════════════════════════════════════ */
+.conf-card {
+  position: relative;
+  overflow: hidden;
+}
+.conf-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(145deg, rgba(29,111,120,0.04) 0%, transparent 55%);
+  opacity: 0;
+  transition: opacity 0.40s ease;
+  pointer-events: none;
+  border-radius: inherit;
+}
+.conf-card:hover::after { opacity: 1; }
+.conf-card:hover {
+  transform: translateY(-5px) translateZ(0) !important;
+  box-shadow:
+    0  4px 16px rgba(26,22,20, 0.07),
+    0 12px 38px var(--glow-conf),
+    0  0   0 1.5px rgba(29,111,120, 0.18) !important;
+  border-color: rgba(29,111,120, 0.22) !important;
+}
+body.dark-mode .conf-card:hover {
+  box-shadow:
+    0  4px 16px rgba(0,0,0, 0.28),
+    0 12px 38px var(--glow-d-conf),
+    0  0   0 1.5px rgba(60,200,200, 0.20) !important;
+  border-color: rgba(60,200,200, 0.24) !important;
+}
+
+/* ════════════════════════════════════════════════════════
+   IMAGE FITTING — GLOBAL FIXES
+   object-fit + object-position on every image container
+   No dimension changes except Technical Head fix
+════════════════════════════════════════════════════════ */
+
+/* ── Cert card images ── */
+.cert-card img {
+  width: 100%;
+  height: 170px;         /* keep existing height */
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  background: var(--bg-alt);
+  /* overflow comes from parent .cert-card { overflow:hidden } */
+}
+
+/* ── Achievement award images (winner / DUMBC / consolation) ── */
+.achievement-award-image {
+  flex-shrink: 0;
+  width: 190px;
+}
+.achievement-award-image img {
+  width: 190px;
+  height: 142px;         /* 4:3 ratio, tidy */
+  object-fit: cover;
+  object-position: center 15%;  /* show top of certificate */
+  border-radius: 10px;
+  border: 2px solid var(--border);
+  box-shadow: var(--shadow);
+  display: block;
+  cursor: pointer;
+  transition: transform 0.38s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.38s ease;
+  background: var(--bg-alt);
+}
+.achievement-award-image img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+}
+body.dark-mode .achievement-award-image img { border-color: rgba(255,255,255,0.12); }
+
+/* ── Achievement letter card image ── */
+.achievement-letter-image {
+  flex-shrink: 0;
+}
+.achievement-letter-image img {
+  width: 320px;
+  max-width: 100%;
+  height: 210px;
+  object-fit: cover;
+  object-position: center top;
+  border-radius: 10px;
+  border: 2px solid var(--border);
+  display: block;
+  cursor: pointer;
+  background: var(--bg-alt);
+  transition: transform 0.38s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.38s ease;
+}
+.achievement-letter-image img:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.16);
+}
+body.dark-mode .achievement-letter-image img { border-color: rgba(255,255,255,0.12); }
+
+/* ── TECHNICAL HEAD IMAGE — Special fix ──
+   Old rule: height:150px via !important in enhancements.css
+   New: proportional 16:10 crop — fits naturally with text beside it
+   !important required to override the existing !important rules  */
+.technical-head-image {
+  flex-shrink: 0;
+  width: 210px;          /* slightly wider for better proportion */
+}
+.technical-head-image img {
+  width: 210px !important;
+  height: 158px !important;   /* 4:3-ish ratio — no excessive height */
+  object-fit: cover !important;
+  object-position: center 20% !important;  /* keep face/top of cert visible */
+  border-radius: 10px !important;
+  border: 2px solid var(--border) !important;
+  box-shadow: var(--shadow) !important;
+  display: block !important;
+  cursor: pointer;
+  background: var(--bg-alt);
+  transition: transform 0.38s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.38s ease !important;
+}
+.technical-head-image img:hover {
+  transform: scale(1.04) !important;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.18) !important;
+}
+body.dark-mode .technical-head-image img { border-color: rgba(255,255,255,0.12) !important; }
+
+/* ── Technical Head award layout ── */
+.technical-head-award {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+/* ── Conference cert image ── */
+.conf-cert-img {
+  max-width: 300px;
+  width: 100%;
+  height: 190px;
+  object-fit: cover;
+  object-position: center top;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  display: block;
+  background: var(--bg-alt);
+  transition: transform 0.38s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.38s ease;
+}
+.conf-cert-img:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.16);
+}
+
+/* ── About photo ── */
+.about-img {
+  width: 100%;
+  height: 270px;
+  object-fit: cover;
+  object-position: center 10%;  /* show face, not just forehead crop */
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  border: 4px solid var(--surface);
+  display: block;
+  background: var(--bg-alt);
+}
+
+/* ── Project media videos ── */
+.project-media video {
+  width: 100%;
+  height: 218px;
+  object-fit: cover;
+  display: block;
+  background: #0a0d10;
+}
+
+/* ════════════════════════════════════════════════════════
+   RESPONSIVE IMAGE OVERRIDES
+════════════════════════════════════════════════════════ */
+@media (max-width: 900px) {
+  /* Achievement award images go full-width in column layout */
+  .achievement-award-image {
+    width: 100%;
+  }
+  .achievement-award-image img {
+    width: 100% !important;
+    max-width: 320px;
+    height: 170px;
+    object-position: center 15%;
+  }
+
+  /* Technical Head goes column on tablet */
+  .technical-head-award { flex-direction: column; }
+  .technical-head-image { width: 100%; }
+  .technical-head-image img {
+    width: 100% !important;
+    max-width: 320px !important;
+    height: 170px !important;
+    object-position: center 20% !important;
+  }
+
+  /* Letter card image */
+  .achievement-letter-image img {
+    width: 100%;
+    max-width: 100%;
+    height: 190px;
+  }
+
+  /* About photo */
+  .about-img { height: 220px; }
+
+  /* Conf cert */
+  .conf-cert-img { max-width: 100%; height: 170px; }
+}
+
+@media (max-width: 600px) {
+  .achievement-award-image img { height: 150px; }
+  .achievement-letter-image img { height: 170px; }
+  .technical-head-image img    { height: 150px !important; }
+  .cert-card img               { height: 155px; }
+  .about-img                   { height: 200px; }
+  .project-media video         { height: 195px; }
+
+  /* Reduce card lift on mobile — no tilt on touch */
+  .project-card:hover       { transform: translateY(-4px) translateZ(0) !important; }
+  .skill-card:hover         { transform: translateY(-4px) scale(1.01) translateZ(0) !important; }
+  .cert-card:hover          { transform: translateY(-4px) translateZ(0) !important; }
+  .edu-card:hover           { transform: translateY(-3px) translateZ(0) !important; }
+  .achievement-item:hover   { transform: translateY(-3px) translateZ(0) !important; }
+  .achievement-letter-card:hover { transform: translateY(-3px) translateZ(0) !important; }
+  .timeline-content:hover   { transform: translateX(4px)  translateZ(0) !important; }
+  .conf-card:hover          { transform: translateY(-3px) translateZ(0) !important; }
+}
+
+/* ════════════════════════════════════════════════════════
+   REDUCED MOTION — disable all hover transforms
+════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  .project-card,
+  .skill-card,
+  .cert-card,
+  .edu-card,
+  .timeline-content,
+  .achievement-item,
+  .achievement-letter-card,
+  .conf-card {
+    transition: box-shadow 0.01ms, border-color 0.01ms !important;
+    transform: none !important;
+    will-change: auto;
+  }
+  .cert-card::before,
+  .project-card::after,
+  .achievement-item::before,
+  .conf-card::after,
+  .achievement-letter-card::before {
+    display: none;
+  }
+}

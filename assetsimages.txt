@@ -1,0 +1,18 @@
+assets/images/
+  prasanna.jpg              ← your photo (hero + about)
+  badge.jpg                 ← Mathelets Club badge
+  iot-office-thumb.jpg      ← video thumbnail (optional)
+  line-follower-thumb.jpg
+  wristband-thumb.jpg
+
+assets/videos/
+  iot-office-automation.mp4
+  line-follower-robot.mp4
+  smart-healthcare-wristband.mp4
+
+assets/certificates/
+  certificate1.jpg          ← NPTEL
+  certificate4.jpg          ← Conference
+
+assets/resume/
+  Prasanna_V_Resume.pdf
